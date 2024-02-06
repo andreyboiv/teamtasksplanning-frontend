@@ -1,64 +1,73 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService, User} from "../service/authservice/auth.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule, NgIf, RouterLink
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: '../auth.component.scss'
 })
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
-  user: User | undefined;
   responseMessage: string | undefined;
+  error: string | undefined;
+  firstSubmitted = false;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      "login": new FormControl("", [Validators.required]),
-      "password": new FormControl("", [Validators.required])
+      "login": new FormControl("", [Validators.required, Validators.minLength(6)]),
+      "password": new FormControl("", [Validators.required, Validators.minLength(8)])
     })
   }
 
 
-  submitForm() {
+  submitAuthorisationForm() {
+    this.firstSubmitted = true;
+
+    if (this.loginForm.invalid) {
+      return;
+    }
+
     const tmpUser = new User();
     tmpUser.login = this.getLogin()?.value;
     tmpUser.password = this.getPassword()?.value;
     this.authService.login(tmpUser).subscribe({
         next: (responseMessage) => {
+          this.error = '',
           this.responseMessage = responseMessage,
           console.log('responseMessage: ', responseMessage)
         },
-        complete: () => {
-          // TODO eventuell was machen...
-          //  console.log('complete')
-        },
         error: (err) => {
+          this.responseMessage = '';
           if (err.status == 0) {
-            this.router.navigate(['/error']);
+            this.error = 'Der Server antwortet nicht. Probieren Sie später noch mal...';
           } else {
-            this.responseMessage = err.error == null ? 'Anmeldedaten sind nicht gültig' : err.error,
-            console.log(this.responseMessage)
+            this.error = err.error == null ? 'Anmeldedaten sind ungültig' : err.error;
+              console.log(this.error)
           }
+          /*   setTimeout(() => {
+               this.error = ''
+             }, 5000); */
         }
       }
     );
   }
 
-  private getLogin() {
+  public getLogin() {
     return this.loginForm.get('login');
   }
 
-  private getPassword() {
+  public getPassword() {
     return this.loginForm.get('password');
   }
 }

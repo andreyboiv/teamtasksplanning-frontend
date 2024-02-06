@@ -17,6 +17,11 @@ export class AuthService {
     console.log(body);
     return this.httpClient.post<string>(this.backendAuthURI + '/login', body, HTTPOptions);
   }
+
+  public register(body: User): Observable<string> {
+    console.log(body);
+    return this.httpClient.put<string>(this.backendAuthURI + '/register', body, HTTPOptions);
+  }
 }
 
 var HTTPOptions = {
