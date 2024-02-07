@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {
   AbstractControl,
-  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -29,10 +28,8 @@ import {PatternConstants} from "../../constants/pattern.constants";
 export class RegisterComponent implements OnInit {
 
   registerForm!: FormGroup;
-  tmpUser: User | undefined;
   responseMessage: string | undefined;
   error: string | undefined;
-  firstSubmitted = false;
 
   private passwordMathValidator: ValidatorFn | null = (
     control: AbstractControl
@@ -42,7 +39,7 @@ export class RegisterComponent implements OnInit {
       : { PasswordNoMatch: true };
   };
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -56,7 +53,6 @@ export class RegisterComponent implements OnInit {
   }
 
   submitRegisterForm() {
-    this.firstSubmitted = true;
 
     if (this.registerForm.invalid) {
       return;
@@ -69,8 +65,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register(tmpUser).subscribe({
         next: (responseMessage) => {
           this.error = '',
-            this.responseMessage = responseMessage,
-            console.log('responseMessage: ', responseMessage)
+          this.router.navigate(['/info-page', {msg: responseMessage}])
         },
         error: (err) => {
           this.responseMessage = '';
@@ -78,11 +73,10 @@ export class RegisterComponent implements OnInit {
             this.error = 'Der Server antwortet nicht. Probieren Sie später noch mal...';
           } else {
             this.error = err.error == null ? 'Anmeldedaten sind ungültig' : err.error;
-            console.log(this.error)
           }
-       /*   setTimeout(() => {
-            this.error = ''
-          }, 5000); */
+          if (this.registerForm.valid) {
+            this.registerForm.reset();
+          }
         }
       }
     );

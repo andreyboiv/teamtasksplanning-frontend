@@ -22,6 +22,10 @@ export class AuthService {
     console.log(body);
     return this.httpClient.put<string>(this.backendAuthURI + '/register', body, HTTPOptions);
   }
+
+  public activateAccount(uuid: string | undefined): Observable<string> {
+    return this.httpClient.post<string>(this.backendAuthURI + '/activate-account', uuid, HTTPOptions);
+  }
 }
 
 var HTTPOptions = {

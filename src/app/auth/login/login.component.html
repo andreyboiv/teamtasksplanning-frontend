@@ -9,27 +9,25 @@
           <div class="input_field col-md-6 col-sm-12"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
             <input id="login" type="text" name="login" placeholder="Login" formControlName="login" required />
           </div>
-          <div *ngIf="firstSubmitted && getLogin()?.errors">
+          <div *ngIf="getLogin()?.errors && (getLogin()?.dirty || getLogin()?.touched)">
             <p *ngIf="getLogin()?.errors?.['required']" class="error_meldung">Bitte Daten eingeben</p>
             <p *ngIf="getLogin()?.errors?.['minlength']" class="error_meldung">Login muss mindestens 6 Symbole enthalten</p>
           </div>
           <div class="input_field col-md-6 col-sm-12"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
             <input id="password" type="password" name="password" formControlName="password" placeholder="Password" required />
           </div>
-          <div *ngIf="firstSubmitted && getPassword()?.errors">
+          <div *ngIf="getPassword()?.errors && (getPassword()?.dirty || getPassword()?.touched)">
             <p *ngIf="getPassword()?.errors?.['required']" class="error_meldung">Bitte Daten eingeben</p>
             <p *ngIf="getPassword()?.errors?.['minlength']" class="error_meldung">Password muss mindestens 8 Symbole enthalten</p>
           </div>
-          <input class="button col-md-6 col-sm-12" type="submit" value="Einloggen" />
-          <div *ngIf="error || responseMessage">
+          <input class="button col-md-6 col-sm-12" [disabled]="loginForm.invalid" type="submit" value="Einloggen" />
+          <div *ngIf="error">
             <p class="error_meldung">{{error}}</p>
-            <p>{{responseMessage}}</p>
           </div>
         </form>
-        <div class="col-md-6 col-sm-12">
-          <!-- [class.disable]="isLoading ? true: null" -->
-          <a routerLink="/register" class="routerLink">Registration</a>
-        </div>
+        <p></p>
+        <p></p>
+        <a routerLink="/register">Registration</a>
       </div>
     </div>
   </div>

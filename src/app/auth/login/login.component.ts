@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService, User} from "../service/authservice/auth.service";
-import {Router, RouterLink} from "@angular/router";
+import {RouterLink} from "@angular/router";
 import {NgIf} from "@angular/common";
 
 @Component({
@@ -18,10 +18,8 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   responseMessage: string | undefined;
   error: string | undefined;
-  firstSubmitted = false;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
-  }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -32,7 +30,6 @@ export class LoginComponent implements OnInit {
 
 
   submitAuthorisationForm() {
-    this.firstSubmitted = true;
 
     if (this.loginForm.invalid) {
       return;
@@ -43,9 +40,8 @@ export class LoginComponent implements OnInit {
     tmpUser.password = this.getPassword()?.value;
     this.authService.login(tmpUser).subscribe({
         next: (responseMessage) => {
-          this.error = '',
-          this.responseMessage = responseMessage,
-          console.log('responseMessage: ', responseMessage)
+          this.error = '';
+          this.responseMessage = responseMessage;
         },
         error: (err) => {
           this.responseMessage = '';
@@ -53,11 +49,7 @@ export class LoginComponent implements OnInit {
             this.error = 'Der Server antwortet nicht. Probieren Sie später noch mal...';
           } else {
             this.error = err.error == null ? 'Anmeldedaten sind ungültig' : err.error;
-              console.log(this.error)
           }
-          /*   setTimeout(() => {
-               this.error = ''
-             }, 5000); */
         }
       }
     );
