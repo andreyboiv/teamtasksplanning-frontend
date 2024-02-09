@@ -26,6 +26,11 @@ export class AuthService {
   public activateAccount(uuid: string | undefined): Observable<string> {
     return this.httpClient.post<string>(this.backendAuthURI + '/activate-account', uuid, HTTPOptions);
   }
+
+  public sendEmailResetPassword(email: string | undefined): Observable<string> {
+    return this.httpClient.post<string>(this.backendAuthURI + '/send-reset-password-email', email, HTTPOptions);
+  }
+
 }
 
 var HTTPOptions = {
