@@ -34,7 +34,6 @@ export class ActivateAccountComponent implements OnInit {
             },
             error: (err) => {
               this.router.navigate(['/info-page', {msg: err.error}]);
-              console.log(err);
             }
           }
         )

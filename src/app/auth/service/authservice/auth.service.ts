@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environments";
 
@@ -14,12 +14,10 @@ export class AuthService {
   }
 
   public login(body: User): Observable<string> {
-    console.log(body);
     return this.httpClient.post<string>(this.backendAuthURI + '/login', body, HTTPOptions);
   }
 
   public register(body: User): Observable<string> {
-    console.log(body);
     return this.httpClient.put<string>(this.backendAuthURI + '/register', body, HTTPOptions);
   }
 
@@ -31,6 +29,15 @@ export class AuthService {
     return this.httpClient.post<string>(this.backendAuthURI + '/send-reset-password-email', email, HTTPOptions);
   }
 
+  public updatePassword(request: string | undefined, token: string | undefined): Observable<string> {
+    const tokenParam = new HttpParams().set('token', token!);
+    return this.httpClient.post<string>(this.backendAuthURI + '/update-password', request,
+      {
+        params: tokenParam, headers: new HttpHeaders({
+          'Accept': 'text/plain;charset=UTF-8'
+        }), 'responseType': 'text' as 'json'
+      });
+  }
 }
 
 var HTTPOptions = {
