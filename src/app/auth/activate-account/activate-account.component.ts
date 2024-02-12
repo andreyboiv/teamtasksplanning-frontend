@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {AuthService} from "../service/authservice/auth.service";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgIf} from "@angular/common";
+import {PatternConstants} from "../../constants/pattern.constants";
 
 @Component({
   selector: 'app-activate-account',
@@ -15,29 +16,54 @@ export class ActivateAccountComponent implements OnInit {
 
   uuid: string | undefined;
   error: string | undefined;
+  aktivateForm!: FormGroup;
+  showForm: boolean | undefined;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) {
-  }
+  constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
+    this.showForm = false;
+
+    this.aktivateForm = new FormGroup({
+      "email": new FormControl("", [Validators.required,
+        Validators.pattern(PatternConstants.EMAIL_PATTERN)]),
+    })
+
     this.route.params.subscribe(params => {
         this.uuid = params["uuid"];
 
         this.authService.activateAccount(this.uuid).subscribe({
             next: (result) => {
-
-              if (result) {
                 this.router.navigate(['/info-page', {msg: 'Ihr Account ist erfolgreich aktiviert'}]);
-              } else {
-                this.router.navigate(['/info-page', {msg: 'Ihr Account ist nicht aktiviert. Probieren Sie noch mal'}]);
-              }
             },
             error: (err) => {
-              this.router.navigate(['/info-page', {msg: err.error}]);
-            }
+              this.showForm = true;
+             }
           }
         )
       }
     )
+  }
+
+  submitAktivateForm() {
+
+    const email = this.getEmail()?.value;
+
+    this.authService.resendActivateEmail(email).subscribe({
+      next: (result) => {
+          this.router.navigate(['/info-page', {msg: result}])
+      },
+      error: (err) => {
+        if (err.status == 0) {
+          this.error = 'Der Server antwortet nicht. Probieren Sie später noch mal...';
+        } else {
+          this.error = err.error == null ? 'Die E-mail Adresse existiert im System nicht' : err.error;
+        }
+      }
+    })
+  }
+
+  public getEmail() {
+    return this.aktivateForm.get('email');
   }
 }

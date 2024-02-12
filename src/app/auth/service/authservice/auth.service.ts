@@ -38,6 +38,10 @@ export class AuthService {
         }), 'responseType': 'text' as 'json'
       });
   }
+
+  public resendActivateEmail(email: string | undefined): Observable<string> {
+    return this.httpClient.post<string>(this.backendAuthURI + '/resend-activate-email', email, HTTPOptions);
+  }
 }
 
 var HTTPOptions = {

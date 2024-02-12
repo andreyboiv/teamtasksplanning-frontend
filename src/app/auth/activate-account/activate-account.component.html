@@ -1,0 +1,34 @@
+<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2>Aktivierungsmail erneut senden</h2>
+    </div>
+    <div class="row clearfix">
+      <div class="">
+        <form *ngIf="showForm" [formGroup]="aktivateForm" (ngSubmit)="submitAktivateForm()">
+          <div class="input_field col-md-6 col-sm-12"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+            <label id="label_email" name="label_email" style="color:red">Sie sehen diese Form, weil die
+              Aktivierung Ihres Accounts fehlgeschlagen ist. Es kann auch sein, dass ihr Account schon aktiviert wurde.
+              Das werden Sie sehen, wenn Sie Ihre E-mail im Feld unten angeben</label>
+          </div>
+          <div class="input_field col-md-6 col-sm-12"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+            <input id="email" type="email" name="email" placeholder="E-mail" formControlName="email" required [email]="true" />
+          </div>
+          <div *ngIf="getEmail()?.errors && (getEmail()?.dirty || getEmail()?.touched)">
+            <p *ngIf="getEmail()?.errors?.['required']" class="error_meldung">Bitte Daten eingeben</p>
+            <p *ngIf="getEmail()?.errors?.['pattern']" class="error_meldung">Bitte gültige Format eingeben</p>
+          </div>
+          <input class="button col-md-6 col-sm-12" [disabled]="aktivateForm.invalid" type="submit" value="Aktivierungsmail erneut senden" />
+          <div *ngIf="error">
+            <p class="error_meldung">{{error}}</p>
+          </div>
+        </form>
+        <p></p>
+        <p></p>
+        <a routerLink="/index">Einloggen</a>
+        <p></p>
+        <a routerLink="/register">Registration</a>
+      </div>
+    </div>
+  </div>
+</div>
