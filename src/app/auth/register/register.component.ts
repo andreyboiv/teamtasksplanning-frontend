@@ -10,8 +10,9 @@ import {
   Validators
 } from "@angular/forms";
 import {Router, RouterLink} from "@angular/router";
-import {AuthService, User} from "../service/authservice/auth.service";
+import {AuthService} from "../service/authservice/auth.service";
 import {PatternConstants} from "../../constants/pattern.constants";
+import {User} from "../model/User";
 
 
 @Component({

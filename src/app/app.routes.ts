@@ -5,6 +5,7 @@ import {InfoPageComponent} from "./auth/info-page/info-page.component";
 import {ActivateAccountComponent} from "./auth/activate-account/activate-account.component";
 import {SendEmailResetPassword} from "./auth/reset-password/send-email/send-email-reset-password.component";
 import {UpdatePasswordComponent} from "./auth/reset-password/update-password/update-password.component";
+import {MainComponent} from "./business/views/page/main/main.component";
 
 export const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -14,5 +15,8 @@ export const routes: Routes = [
   {path: 'info-page', component: InfoPageComponent, pathMatch: 'full'},
   {path: 'activate-account/:uuid', component: ActivateAccountComponent, pathMatch: 'full'},
   {path: 'reset-password', component: SendEmailResetPassword, pathMatch: 'full'},
-  {path: 'update-password/:token', component: UpdatePasswordComponent, pathMatch: 'full'}
+  {path: 'update-password/:token', component: UpdatePasswordComponent, pathMatch: 'full'},
+
+  {path: 'main', component: MainComponent, pathMatch: 'full'},
+
 ];

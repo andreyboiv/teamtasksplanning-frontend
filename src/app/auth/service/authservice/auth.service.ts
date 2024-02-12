@@ -1,12 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {environment} from "../../../../environments/environments";
+import {User} from "../../model/User";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  currentUser = new BehaviorSubject<User | null>(null);
+  isLoggeIn = false;
 
   backendAuthURI = environment.backendURL + '/auth';
 
@@ -49,16 +53,4 @@ var HTTPOptions = {
     'Accept':'text/plain;charset=UTF-8'
   }),
   'responseType': 'text' as 'json'
-}
-
-export class User {
-  id: number | undefined;
-  login: string | undefined;
-  password: string | undefined;
-  email: string | undefined;
-  powers: Array<Role> | undefined; // USER, ADMIN
-}
-
-export class Role {
-  name: string | undefined;
 }

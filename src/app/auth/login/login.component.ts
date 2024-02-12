@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {AuthService, User} from "../service/authservice/auth.service";
-import {RouterLink} from "@angular/router";
+import {AuthService} from "../service/authservice/auth.service";
+import {Router, RouterLink} from "@angular/router";
 import {NgIf} from "@angular/common";
+import {User} from "../model/User";
 
 @Component({
   selector: 'app-login',
@@ -18,8 +19,10 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   responseMessage: string | undefined;
   error: string | undefined;
+  private user: User | undefined;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+  }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -41,7 +44,13 @@ export class LoginComponent implements OnInit {
     this.authService.login(tmpUser).subscribe({
         next: (responseMessage) => {
           this.error = '';
-          this.responseMessage = responseMessage;
+
+          this.user = tmpUser;
+
+          this.authService.currentUser.next(this.user);
+          this.authService.isLoggeIn = true;
+
+          this.router.navigate(['main'])
         },
         error: (err) => {
           this.responseMessage = '';
