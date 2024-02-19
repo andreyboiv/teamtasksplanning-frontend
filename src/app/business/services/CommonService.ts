@@ -14,16 +14,16 @@ export class CommonService<T> implements ICommon<T> {
     return this.httpClient.put<T>(this.url + '/add', t);
   }
 
-  delete(id: number): Observable<any> {
+  delete(id: number | undefined): Observable<any> {
     return this.httpClient.delete<any>(this.url + '/delete/' + id);
   }
 
-  findById(id: number): Observable<T> {
+  findById(id: number | undefined): Observable<T> {
     return this.httpClient.post<T>(this.url + '/id', id);
   }
 
-  findAll(email: string): Observable<T[]> {
-    return this.httpClient.post<T[]>(this.url + '/all', email);
+  findAll(login: string | undefined): Observable<T[]> {
+    return this.httpClient.post<T[]>(this.url + '/all', login);
   }
 
   update(t: T): Observable<any> {

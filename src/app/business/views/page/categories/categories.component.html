@@ -1,0 +1,15 @@
+<div class="col-12 text-center">
+  <button class="add-icon">
+    + Hinzufügen
+  </button>
+</div>
+<div id="categories">
+  <ul>
+    <div *ngIf="!categories || categories.length === 0"><p class="not-found">Nichts gefunden</p></div>
+    <li
+      *ngFor="let category of categories, let index = index">
+      <span class="category-title">{{ category.title }}</span>
+      <span class="uncompleted-count"> {{ category.uncompletedCount || 0 }}</span>
+    </li>
+  </ul>
+</div>

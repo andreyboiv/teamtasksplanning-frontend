@@ -4,7 +4,6 @@ import {CommonService} from './CommonService';
 import {IPriority} from '../interface/IPriority';
 import {Observable} from 'rxjs';
 import {Priority} from "../model/Priority";
-import {CategorySearchValues} from "../search/CategorySearchValues";
 
 export const PRIORITY_URL_TOKEN = new InjectionToken<string>('url');
 
@@ -13,12 +12,7 @@ export const PRIORITY_URL_TOKEN = new InjectionToken<string>('url');
 })
 
 export class PriorityService extends CommonService<Priority> implements IPriority {
-
   constructor(@Inject(PRIORITY_URL_TOKEN) private baseUrl: string, private http: HttpClient) {
     super(baseUrl, http);
-  }
-
-  findPriorities(categorySearchValues: CategorySearchValues): Observable<Priority[]> {
-    return this.http.post<Priority[]>(this.baseUrl + '/search', categorySearchValues);
   }
 }
