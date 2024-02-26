@@ -8,6 +8,7 @@ import {CATEGORY_URL_TOKEN} from "./business/services/CategoryService";
 import {PRIORITY_URL_TOKEN} from "./business/services/PriorityService";
 import {STAT_URL_TOKEN} from "./business/services/StatService";
 import {environment} from "../environments/environments";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,6 +37,6 @@ export const appConfig: ApplicationConfig = {
     {
       provide: STAT_URL_TOKEN,
       useValue: environment.backendURL + '/stat'
-    }
+    }, provideAnimationsAsync()
   ]
 };
