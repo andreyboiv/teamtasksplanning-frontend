@@ -3,7 +3,7 @@ import {Category} from "../../../model/Category";
 import {CategoryService} from "../../../services/CategoryService";
 import {AuthService} from "../../../../auth/service/authservice/auth.service";
 import {User} from "../../../../auth/model/User";
-import {CategoriesComponent} from "../categories/categories.component";
+import {CategoriesComponent} from "./categories/categories.component";
 import {NgClass, NgIf} from "@angular/common";
 import {RouterOutlet} from "@angular/router";
 

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Category} from "../../../model/Category";
+import {Category} from "../../../../model/Category";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {RouterOutlet} from "@angular/router";
