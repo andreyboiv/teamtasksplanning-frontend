@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {environment} from "../../../../environments/environments";
-import {User} from "../../model/User";
+import {Employee} from "../../model/Employee";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  currentUser = new BehaviorSubject<User | null>(null);
+  currentUser = new BehaviorSubject<Employee | null>(null);
   isLoggeIn = false;
 
   backendAuthURI = environment.backendURL + '/auth';
@@ -17,11 +17,11 @@ export class AuthService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public login(body: User): Observable<string> {
+  public login(body: Employee): Observable<string> {
     return this.httpClient.post<string>(this.backendAuthURI + '/login', body, HTTPOptions);
   }
 
-  public register(body: User): Observable<string> {
+  public register(body: Employee): Observable<string> {
     return this.httpClient.put<string>(this.backendAuthURI + '/register', body, HTTPOptions);
   }
 

@@ -9,12 +9,17 @@ import {PRIORITY_URL_TOKEN} from "./business/services/PriorityService";
 import {STAT_URL_TOKEN} from "./business/services/StatService";
 import {environment} from "../environments/environments";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
     importProvidersFrom(HttpClientModule),
+
+    {provide: MAT_DIALOG_DATA, useValue: {} },
+    {provide: MatDialogRef, useValue: {} },
+
     {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true},
 
     {

@@ -12,7 +12,7 @@ import {
 import {Router, RouterLink} from "@angular/router";
 import {AuthService} from "../service/authservice/auth.service";
 import {PatternConstants} from "../../constants/pattern.constants";
-import {User} from "../model/User";
+import {Employee} from "../model/Employee";
 
 
 @Component({
@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const tmpUser = new User();
+    const tmpUser = new Employee();
     tmpUser.login = this.getLogin()?.value;
     tmpUser.email = this.getEmail()?.value;
     tmpUser.password = this.getPassword()?.value;

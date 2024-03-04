@@ -6,4 +6,8 @@
       <span class="uncompleted-count"> {{ category.uncompletedCount || 0 }}</span>
     </li>
   </ul>
+  <button mat-flat-button class="button-flat" color="primary">
+    <mat-icon>playlist_add</mat-icon>
+    <span class="button-text" (click)="openDialogAddKategorie()">Add Kategorie</span>
+  </button>
 </div>

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {Category} from "../../../model/Category";
 import {CategoryService} from "../../../services/CategoryService";
 import {AuthService} from "../../../../auth/service/authservice/auth.service";
-import {User} from "../../../../auth/model/User";
+import {Employee} from "../../../../auth/model/Employee";
 import {CategoriesComponent} from "./categories/categories.component";
 import {CommonModule} from "@angular/common";
 import {RouterOutlet} from "@angular/router";
@@ -32,8 +32,8 @@ import {BreakpointObserver} from "@angular/cdk/layout";
 
 export class MainComponent implements OnInit {
 
-  categories: Category[] | undefined | null | any;
-  private user: User | null | undefined;
+  categories: Category[] | any;
+  employee: Employee | any;
 
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
@@ -54,13 +54,13 @@ export class MainComponent implements OnInit {
     });
 
     this.authService.currentUser.subscribe(
-      user => {
+      employee => {
 
-        this.user = user;
-
-        this.categoryService.findAll(this.user?.login).subscribe(
-          categoriesResult =>
-            this.categories = categoriesResult
+        this.categoryService.findAll(employee?.login).subscribe(
+          categoriesResult => {
+            this.employee = employee;
+            this.categories = categoriesResult;
+          }
         )
       }
     );
@@ -74,4 +74,9 @@ export class MainComponent implements OnInit {
     }
   }
 
+  addCategory(category: Category) {
+    this.categoryService.add(category).subscribe(result => {
+      this.categories.push(result);
+    })
+  }
 }

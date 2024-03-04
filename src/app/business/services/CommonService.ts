@@ -11,7 +11,7 @@ export class CommonService<T> implements ICommon<T> {
   }
 
   add(t: T): Observable<T> {
-    return this.httpClient.put<T>(this.url + '/add', t);
+    return this.httpClient.post<T>(this.url + '/add', t);
   }
 
   delete(id: number | undefined): Observable<any> {

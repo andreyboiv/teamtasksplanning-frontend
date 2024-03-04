@@ -1,8 +1,14 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
 import {Category} from "../../../../model/Category";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {RouterOutlet} from "@angular/router";
+import {MatButton} from "@angular/material/button";
+import {MatIcon} from "@angular/material/icon";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {EditCategoryDialogComponent} from "./edit-category-dialog/edit-category-dialog.component";
+import {Employee} from "../../../../../auth/model/Employee";
+import {DialogAction} from "../../../../object/DialogAction";
 
 @Component({
   selector: 'app-categories',
@@ -10,17 +16,50 @@ import {RouterOutlet} from "@angular/router";
   imports: [
     CommonModule,
     FormsModule,
-    RouterOutlet],
+    RouterOutlet,
+    MatButton,
+    MatIcon
+  ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent {
+
+  @Output()
+  addCategoryEvent = new EventEmitter<Category>;
 
   @Input('categories')
   set setCategories(categories: Category[]) {
     this.categories = categories;
   }
 
-  categories: Category[] | undefined;
+  @Input('employeesToCategory')
+  set setUser(employee: Employee) {
+    this.employee = employee;
+  }
 
+  categories: Category[] | undefined;
+  private employee: Employee | undefined;
+
+  constructor(@Inject(MAT_DIALOG_DATA) private data: [Category, string],
+              private matDialogBuilder: MatDialog,
+              private matDialogRef: MatDialogRef<EditCategoryDialogComponent>) {
+  }
+
+  openDialogAddKategorie() {
+    this.matDialogRef = this.matDialogBuilder.open(EditCategoryDialogComponent, {
+      data: [new Category(null, '', this.employee), "ADD"]
+    });
+
+    this.matDialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+
+      if (result.action === DialogAction.SAVE) {
+        this.addCategoryEvent.emit(result.obj as Category);
+      }
+
+    })
+  }
 }

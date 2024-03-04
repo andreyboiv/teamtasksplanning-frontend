@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} fr
 import {AuthService} from "../service/authservice/auth.service";
 import {Router, RouterLink} from "@angular/router";
 import {NgIf} from "@angular/common";
-import {User} from "../model/User";
+import {Employee} from "../model/Employee";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   responseMessage: string | undefined;
   error: string | undefined;
-  private user: User | undefined;
+  private user: Employee | undefined;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
   }
@@ -38,13 +38,14 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const tmpUser = new User();
+    const tmpUser = new Employee();
     tmpUser.login = this.getLogin()?.value;
     tmpUser.password = this.getPassword()?.value;
     this.authService.login(tmpUser).subscribe({
         next: (responseMessage) => {
           this.error = '';
-
+          tmpUser.password = '';
+          tmpUser.id = Number(responseMessage);
           this.user = tmpUser;
 
           this.authService.currentUser.next(this.user);

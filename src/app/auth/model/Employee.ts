@@ -1,6 +1,6 @@
 import {Role} from "./Role";
 
-export class User {
+export class Employee {
   id: number | undefined;
   login: string | undefined;
   password: string | undefined;

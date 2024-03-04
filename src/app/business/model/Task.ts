@@ -1,7 +1,7 @@
 import {Priority} from './Priority';
 import {Category} from './Category';
 
-import {User} from "../../auth/model/User";
+import {Employee} from "../../auth/model/Employee";
 
 export class Task {
   id: number;
@@ -10,18 +10,18 @@ export class Task {
   priority: Priority;
   category: Category;
   taskDate?: Date;
-  user: User;
+  user: Employee;
   oldCategory: Category | undefined;
 
   constructor(id: number, title: string, completed: number,
               priority: Priority,
-              category: Category, user: User, taskDate?: Date) {
+              category: Category, employee: Employee, taskDate?: Date) {
     this.id = id;
     this.title = title;
     this.completed = completed;
     this.priority = priority;
     this.category = category;
     this.taskDate = taskDate;
-    this.user = user;
+    this.user = employee;
   }
 }
