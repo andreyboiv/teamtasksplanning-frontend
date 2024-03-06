@@ -90,4 +90,15 @@ export class MainComponent implements OnInit {
       }
     })
   }
+
+  deleteCategory(category: Category) {
+    this.categoryService.delete(category.id).subscribe(result => {
+      for (let i = 0; i < this.categories.length ; i++) {
+        if (this.categories[i].id == category.id) {
+          this.categories.splice(i, 1);
+          break;
+        }
+      }
+    })
+  }
 }

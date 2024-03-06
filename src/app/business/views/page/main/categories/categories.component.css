@@ -19,10 +19,8 @@
 }
 
 .overCategoryItem {
-  font-weight: bold;
   text-decoration: underline;
 }
 
 .notOverCategoryItem {
-  font-weight: normal;
 }

@@ -13,6 +13,11 @@
                   (click)="$event.stopPropagation(); openUpdateKategorieDialog(category)"
         >edit
         </mat-icon>
+          <mat-icon style="cursor: pointer; margin-right: 1rem"
+                    *ngIf="(showEditIConCategoryIcon && index === indexCategoryMouseOver)"
+                    (click)="$event.stopPropagation(); openDeleteKategorieDialog(category)"
+          >delete
+          </mat-icon>
       <span class="uncompleted-count"> {{ category.uncompletedCount || 0 }}</span>
       </div>
     </li>

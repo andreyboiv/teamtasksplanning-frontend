@@ -9,6 +9,9 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {EditCategoryDialogComponent} from "./edit-category-dialog/edit-category-dialog.component";
 import {Employee} from "../../../../../auth/model/Employee";
 import {DialogAction} from "../../../../object/DialogAction";
+import {ConfirmationDialogComponent} from "./confirmation-dialog/confirmation-dialog.component";
+import {MatFormField} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-categories',
@@ -18,7 +21,9 @@ import {DialogAction} from "../../../../object/DialogAction";
     FormsModule,
     RouterOutlet,
     MatButton,
-    MatIcon
+    MatIcon,
+    MatFormField,
+    MatInput
   ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
@@ -30,6 +35,9 @@ export class CategoriesComponent {
 
   @Output()
   updateCategoryEvent = new EventEmitter<Category>;
+
+  @Output()
+  deleteCategoryEvent = new EventEmitter<Category>();
 
 
   @Input('categories')
@@ -49,7 +57,8 @@ export class CategoriesComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: [Category, string],
               private matDialogBuilder: MatDialog,
-              private matDialogRef: MatDialogRef<EditCategoryDialogComponent>) {
+              private matDialogRef: MatDialogRef<EditCategoryDialogComponent>,
+              private dialogRefConfirm: MatDialogRef<ConfirmationDialogComponent>) {
   }
 
   openAddKategorieDialog() {
@@ -86,10 +95,23 @@ export class CategoriesComponent {
     })
   }
 
+  openDeleteKategorieDialog(category: Category) {
+    this.dialogRefConfirm = this.matDialogBuilder.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+
+    this.dialogRefConfirm.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+
+      this.deleteCategoryEvent.emit(category as Category);
+
+    });
+  }
+
   updateEditIconVisible(show: boolean, index: number): void {
     this.showEditIConCategoryIcon = show;
     this.indexCategoryMouseOver = index;
   }
-
-
 }
