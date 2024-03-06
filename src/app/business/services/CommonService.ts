@@ -26,7 +26,7 @@ export class CommonService<T> implements ICommon<T> {
     return this.httpClient.post<T[]>(this.url + '/all', login);
   }
 
-  update(t: T): Observable<any> {
-    return this.httpClient.patch<any>(this.url + '/update', t);
+  update(t: T): Observable<String> {
+    return this.httpClient.patch<String>(this.url + '/update', t);
   }
 }

@@ -28,6 +28,10 @@ export class CategoriesComponent {
   @Output()
   addCategoryEvent = new EventEmitter<Category>;
 
+  @Output()
+  updateCategoryEvent = new EventEmitter<Category>;
+
+
   @Input('categories')
   set setCategories(categories: Category[]) {
     this.categories = categories;
@@ -40,13 +44,15 @@ export class CategoriesComponent {
 
   categories: Category[] | undefined;
   private employee: Employee | undefined;
+  showEditIConCategoryIcon: boolean | undefined;
+  indexCategoryMouseOver: number | undefined;
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: [Category, string],
               private matDialogBuilder: MatDialog,
               private matDialogRef: MatDialogRef<EditCategoryDialogComponent>) {
   }
 
-  openDialogAddKategorie() {
+  openAddKategorieDialog() {
     this.matDialogRef = this.matDialogBuilder.open(EditCategoryDialogComponent, {
       data: [new Category(null, '', this.employee), "ADD"]
     });
@@ -62,4 +68,28 @@ export class CategoriesComponent {
 
     })
   }
+
+  openUpdateKategorieDialog(category: Category) {
+    this.matDialogRef = this.matDialogBuilder.open(EditCategoryDialogComponent, {
+      data: [new Category(category.id, category.title, this.employee), "EDIT"]
+    });
+
+    this.matDialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+
+      if (result.action === DialogAction.SAVE) {
+        this.updateCategoryEvent.emit(result.obj as Category);
+      }
+
+    })
+  }
+
+  updateEditIconVisible(show: boolean, index: number): void {
+    this.showEditIConCategoryIcon = show;
+    this.indexCategoryMouseOver = index;
+  }
+
+
 }

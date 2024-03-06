@@ -79,4 +79,15 @@ export class MainComponent implements OnInit {
       this.categories.push(result);
     })
   }
+
+  editCategory(category: Category) {
+    this.categoryService.update(category).subscribe(result => {
+      for (let c of this.categories) {
+        if (c.id == category.id) {
+          c.title = category.title;
+          break;
+        }
+      }
+    })
+  }
 }

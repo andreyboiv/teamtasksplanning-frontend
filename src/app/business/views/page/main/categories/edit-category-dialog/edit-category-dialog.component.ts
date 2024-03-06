@@ -34,43 +34,38 @@ import {DialogAction} from "../../../../../object/DialogAction";
 })
 export class EditCategoryDialogComponent implements OnInit {
 
-  newCategoryForm!: FormGroup;
+  formGroup!: FormGroup;
   error: string | undefined;
   private formBuilder: FormBuilder = new FormBuilder();
-
   category: Category | undefined;
-
-  private dialogTitle: string | undefined;
-  private canDelete = false;
 
   constructor(private matDialogRef: MatDialogRef<EditCategoryDialogComponent>,
               @Inject(MAT_DIALOG_DATA) private data: [Category, string]) {
   }
 
   ngOnInit(): void {
-    this.newCategoryForm = this.formBuilder.group({
+    this.formGroup = this.formBuilder.group({
       "category": new FormControl("", [Validators.required]),
     })
   }
 
-  getNewCategory() {
-    return this.newCategoryForm.get('category');
+  getCategory() {
+    return this.formGroup.get('category');
   }
 
-  setNewCategory(str: String) {
-    return this.newCategoryForm.get('category')?.setValue(str);
+  setTitleToCategory(str: String) {
+    return this.formGroup.get('category')?.setValue(str);
   }
 
   cancelClick = () => this.matDialogRef.close(new DialogResult(DialogAction.CANCEL));
   okClick = () => {
 
-    if (!this.getNewCategory()?.value) {
+    if (!this.getCategory()?.value) {
       return;
     }
 
     this.category = this.data[0];
-    this.category.title = this.getNewCategory()?.value;
-    this.dialogTitle = this.data[1];
+    this.category.title = this.getCategory()?.value;
 
     this.matDialogRef.close(new DialogResult(DialogAction.SAVE, this.category))
 

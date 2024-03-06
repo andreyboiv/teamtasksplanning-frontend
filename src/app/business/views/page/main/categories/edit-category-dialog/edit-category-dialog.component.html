@@ -1,20 +1,19 @@
 <mat-dialog-content>
-  <form [formGroup]="newCategoryForm">
+  <form [formGroup]="formGroup">
   <mat-form-field>
-    <mat-label>Neue Kategorie</mat-label>
     <input matInput id="category" type="text" name="category" maxlength="15" (keydown.enter)="okClick()" formControlName="category">
-    @if (!this.newCategoryForm.invalid) {
-      <button matSuffix mat-icon-button aria-label="Clear" (click)="setNewCategory('')">
+    @if (!this.formGroup.invalid) {
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="setTitleToCategory('')">
         <mat-icon>close</mat-icon>
       </button>
     }
-    <div *ngIf="getNewCategory()?.errors && (getNewCategory()?.dirty || getNewCategory()?.touched)">
-      <p *ngIf="getNewCategory()?.errors?.['required']" class="error_meldung">Bitte Daten eingeben</p>
+    <div *ngIf="getCategory()?.errors && (getCategory()?.dirty || getCategory()?.touched)">
+      <p *ngIf="getCategory()?.errors?.['required']" class="error_meldung">Bitte Daten eingeben</p>
     </div>
   </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-flat-button [disabled]="this.newCategoryForm.invalid" [ngStyle]="{'background-color': this.newCategoryForm.invalid? 'grey' : '#3f51b5'}" class="button-flat" color="primary" (click)="okClick()">Speichern</button>
+  <button mat-flat-button [disabled]="this.formGroup.invalid" [ngStyle]="{'background-color': this.formGroup.invalid? 'grey' : '#3f51b5'}" class="button-flat" color="primary" (click)="okClick()">Speichern</button>
   <button mat-flat-button class="button-flat" color="primary" (click)="cancelClick()">Ablehnen</button>
 </mat-dialog-actions>

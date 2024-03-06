@@ -9,7 +9,7 @@ export interface ICommon<T> {
 
   findById(id: number): Observable<T>;
 
-  update(obj: T): Observable<T>;
+  update(obj: T): Observable<String>;
 
   delete(id: number): Observable<T>;
 

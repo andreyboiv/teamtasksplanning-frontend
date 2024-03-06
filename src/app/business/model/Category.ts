@@ -1,11 +1,11 @@
 import {Employee} from "../../auth/model/Employee";
 
 export class Category {
-  id: number | null | undefined;
-  title: string | null | undefined;
-  completedCount: number | undefined;
-  uncompletedCount: number | undefined;
-  employeesToCategory: Employee | undefined;
+  id: number | any;
+  title: string | any;
+  completedCount: number | any;
+  uncompletedCount: number | any;
+  employeesToCategory: Employee | any;
 
   constructor(id: number | null, title: string, user: Employee | undefined, completedCount?: number, uncompletedCount?: number) {
     this.id = id;

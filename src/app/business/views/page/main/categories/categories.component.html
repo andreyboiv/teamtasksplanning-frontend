@@ -1,13 +1,24 @@
 <div id="categories">
-  <ul>
-    <li
-      *ngFor="let category of categories, let index = index">
+  <ul style="margin-bottom: 2rem">
+    <li style="margin-top: 2rem"
+        *ngFor="let category of categories, let index = index"
+        (mouseleave)="updateEditIconVisible(false, index)"
+        (mouseenter)="updateEditIconVisible(true,index)"
+    >
+      <div
+        [ngClass]="(showEditIConCategoryIcon && index === indexCategoryMouseOver)? 'overCategoryItem' : 'notOverCategoryItem'">
       <span class="category-title">{{ category.title }}</span>
+        <mat-icon style="cursor: pointer;"
+                  *ngIf="(showEditIConCategoryIcon && index === indexCategoryMouseOver)"
+                  (click)="$event.stopPropagation(); openUpdateKategorieDialog(category)"
+        >edit
+        </mat-icon>
       <span class="uncompleted-count"> {{ category.uncompletedCount || 0 }}</span>
+      </div>
     </li>
   </ul>
   <button mat-flat-button class="button-flat" color="primary">
     <mat-icon>playlist_add</mat-icon>
-    <span class="button-text" (click)="openDialogAddKategorie()">Add Kategorie</span>
+    <span class="button-text" (click)="openAddKategorieDialog()">Add Kategorie</span>
   </button>
 </div>

@@ -10,3 +10,19 @@
   padding-left: 1rem;
   padding-right: 3rem;
 }
+
+.category-title {
+  margin-right: 5rem;
+}
+
+.uncompleted-count {
+}
+
+.overCategoryItem {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.notOverCategoryItem {
+  font-weight: normal;
+}
