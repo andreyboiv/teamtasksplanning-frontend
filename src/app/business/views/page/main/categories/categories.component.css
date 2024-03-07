@@ -13,9 +13,13 @@
 
 .category-title {
   margin-right: 5rem;
+  width: 70%;
+  display: inline-block;
 }
 
 .uncompleted-count {
+  background-color: #eaeaea;
+  border-radius: 3px;
 }
 
 .overCategoryItem {
