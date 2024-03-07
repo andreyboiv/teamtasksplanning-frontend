@@ -12,6 +12,7 @@ import {DialogAction} from "../../../../object/DialogAction";
 import {ConfirmationDialogComponent} from "./confirmation-dialog/confirmation-dialog.component";
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-categories',
@@ -23,7 +24,8 @@ import {MatInput} from "@angular/material/input";
     MatButton,
     MatIcon,
     MatFormField,
-    MatInput
+    MatInput,
+    MatTooltip
   ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'

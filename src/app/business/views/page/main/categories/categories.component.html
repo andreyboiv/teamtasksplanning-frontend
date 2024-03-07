@@ -11,18 +11,20 @@
     >
       <div
         [ngClass]="(showEditIConCategoryIcon && index === indexCategoryMouseOver)? 'overCategoryItem' : 'notOverCategoryItem'">
-      <span class="category-title">{{ category.title }}</span>
+      <span class="category-title" matTooltip="Kategorie Titel">{{ category.title }}</span>
         <mat-icon style="cursor: pointer;"
                   *ngIf="(showEditIConCategoryIcon && index === indexCategoryMouseOver)"
                   (click)="$event.stopPropagation(); openUpdateKategorieDialog(category)"
+                  matTooltip="Kategorie ändern"
         >edit
         </mat-icon>
           <mat-icon style="cursor: pointer; margin-right: 1rem"
                     *ngIf="(showEditIConCategoryIcon && index === indexCategoryMouseOver)"
                     (click)="$event.stopPropagation(); openDeleteKategorieDialog(category)"
+                    matTooltip="Kategorie löschen"
           >delete
           </mat-icon>
-      <span class="uncompleted-count"> {{ category.uncompletedCount || 0 }}</span>
+      <span class="uncompleted-count" matTooltip="Anzahl der noch ausstehenden Aufgaben"> {{ category.uncompletedCount || 0 }}</span>
       </div>
     </li>
   </ul>
